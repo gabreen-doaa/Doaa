@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <title>משחק אינטראקטיבי - דועא ג'בארין</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    /* Reset */
+    * {
+      box-sizing: border-box;
+      margin: 0; padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    body {
+      background: #f5f7fa;
+      color: #333;
+      display: flex;
+      min-height: 100vh;
+      direction: rtl;
+    }
+    /* الشريط الجانبي */
+    nav.sidebar {
+      width: 250px;
+      background-color: #27374d;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 30px 20px;
+      position: fixed;
+      top: 0; bottom: 0; right: 0;
+      box-shadow: -3px 0 10px rgba(0,0,0,0.1);
+    }
+    nav.sidebar img.logo {
+      width: 100px;
+      margin-bottom: 20px;
+      border-radius: 50%;
+      border: 2px solid #f5f7fa;
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    }
+    nav.sidebar h2 {
+      font-weight: 700;
+      margin-bottom: 40px;
+      font-size: 1.5rem;
+      letter-spacing: 0.05em;
+      text-align: center;
+    }
+    nav.sidebar a {
+      color: #a9b6c1;
+      text-decoration: none;
+      width: 100%;
+      padding: 15px 20px;
+      margin-bottom: 10px;
+      border-radius: 8px;
+      transition: background-color 0.3s, color 0.3s;
+      font-size: 1.1rem;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    nav.sidebar a:hover,
+    nav.sidebar a.active {
+      background-color: #526d82;
+      color: #fff;
+    }
+    nav.sidebar a i {
+      font-size: 1.3rem;
+    }
+    /* محتوى الصفحة */
+    main.content {
+      margin-right: 250px;
+      padding: 60px 40px;
+      max-width: 900px;
+      width: 100%;
+      min-height: 100vh;
+      color: #004d40;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    main.content h1 {
+      font-size: 2.4rem;
+      margin-bottom: 25px;
+      font-weight: 700;
+      color: #27374d;
+      text-align: center;
+      width: 100%;
+    }
+    /* لعبة איקס עיגול */
+    .board {
+      display: grid;
+      grid-template-columns: repeat(3, 100px);
+      grid-gap: 10px;
+      margin-bottom: 30px;
+    }
+    .cell {
+      width: 100px;
+      height: 100px;
+      background-color: #e0f7fa;
+      border-radius: 10px;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+      font-size: 48px;
+      text-align: center;
+      line-height: 100px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      user-select: none;
+    }
+    .cell:hover {
+      background-color: #b2ebf2;
+    }
+    #message {
+      font-size: 1.5rem;
+      margin-bottom: 20px;
+      min-height: 30px;
+      color: #004d40;
+      font-weight: 600;
+    }
+    button.restart-btn {
+      background-color: #00796b;
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      padding: 12px 25px;
+      font-size: 1.2rem;
+      cursor: pointer;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      transition: background-color 0.3s;
+    }
+    button.restart-btn:hover {
+      background-color: #004d40;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      nav.sidebar {
+        position: relative;
+        width: 100%;
+        height: auto;
+        flex-direction: row;
+        justify-content: space-around;
+        padding: 15px 10px;
+        box-shadow: none;
+      }
+      nav.sidebar img.logo {
+        width: 50px;
+        margin: 0;
+      }
+      nav.sidebar h2 {
+        display: none;
+      }
+      nav.sidebar a {
+        padding: 10px 12px;
+        margin: 0;
+        font-size: 1rem;
+      }
+      main.content {
+        margin: 0;
+        padding: 20px 15px;
+      }
+      .board {
+        grid-template-columns: repeat(3, 70px);
+        grid-gap: 8px;
+      }
+      .cell {
+        width: 70px;
+        height: 70px;
+        font-size: 36px;
+        line-height: 70px;
+      }
+      button.restart-btn {
+        padding: 10px 20px;
+        font-size: 1rem;
+      }
+    }
+  </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+<body>
+
+  <nav class="sidebar">
+    <img src="https://cdn-icons-png.flaticon.com/512/4221/4221419.png" alt="logo" class="logo" />
+    <h2>דועא ג'בארין</h2>
+    <a href="index.html"><i class="fa fa-home"></i> עמוד הבית</a>
+    <a href="about.html"><i class="fa fa-id-card"></i> עמוד אישי</a>
+    <a href="game.html" class="active"><i class="fa fa-gamepad"></i> משחק</a>
+    <a href="automation.html"><i class="fa fa-robot"></i> בדיקה אוטומטית</a>
+    <a href="shop.html"><i class="fa fa-store"></i> חנות</a>
+  </nav>
+
+  <main class="content">
+    <h1>משחק איקס עיגול</h1>
+    <div class="board" id="game-board"></div>
+    <div id="message"></div>
+    <button class="restart-btn" onclick="startGame()">התחל מחדש</button>
+  </main>
+
+  <script>
+    const board = Array(9).fill('');
+    let currentPlayer = 'X';
+    let gameActive = true;
+
+    const gameBoard = document.getElementById('game-board');
+    const message = document.getElementById('message');
+
+    function renderBoard() {
+      gameBoard.innerHTML = '';
+      board.forEach((cell, idx) => {
+        const cellDiv = document.createElement('div');
+        cellDiv.classList.add('cell');
+        cellDiv.textContent = board[idx];
+        cellDiv.addEventListener('click', () => handleCellClick(idx));
+        gameBoard.appendChild(cellDiv);
+      });
+    }
+
+    function handleCellClick(index) {
+      if (!gameActive || board[index]) return;
+      board[index] = currentPlayer;
+      renderBoard();
+      if (checkWin()) {
+        message.textContent = `השחקן ${currentPlayer} ניצח! 🎉`;
+        gameActive = false;
+      } else if (board.every(cell => cell)) {
+        message.textContent = 'תיקו! 😐';
+        gameActive = false;
+      } else {
+        currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+        message.textContent = `תור השחקן: ${currentPlayer}`;
+      }
+    }
+
+    function checkWin() {
+      const winPatterns = [
+        [0,1,2], [3,4,5], [6,7,8],
+        [0,3,6], [1,4,7], [2,5,8],
+        [0,4,8], [2,4,6]
+      ];
+      return winPatterns.some(pattern => {
+        const [a,b,c] = pattern;
+        return board[a] && board[a] === board[b] && board[a] === board[c];
+      });
+    }
+
+    function startGame() {
+      for(let i=0; i<9; i++) board[i] = '';
+      currentPlayer = 'X';
+      gameActive = true;
+      message.textContent = `תור השחקן: ${currentPlayer}`;
+      renderBoard();
+    }
+
+    startGame();
+  </script>
+
+</body>
+</html>
+
+
